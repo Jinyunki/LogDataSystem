@@ -12,6 +12,8 @@ namespace LogDataSystem.ViewModel
 {
     public class MainViewModel : MainModel
     {
+
+        public string Path = "D:\\LOG\\";
         EditLogData editLogData = new EditLogData();
         public ICommand TESTLOGBTN { get; set; }
         public MainViewModel()
@@ -20,7 +22,7 @@ namespace LogDataSystem.ViewModel
             BtnMaxsize = new RelayCommand(WinMaxSize);
             BtnClose = new RelayCommand(WindowClose);
 
-            TESTLOGBTN = new RelayCommand(() => { editLogData.AddLogFile_Csv(0, true, 1, 2, 3, 4, 5, DateTime.Now, DateTime.Now); });
+            TESTLOGBTN = new RelayCommand(() => { editLogData.AddLogFile_Csv(0, true, 1, 2, 3, 4, 5, DateTime.Now, DateTime.Now, Path); });
 
 
         }

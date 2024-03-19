@@ -11,9 +11,8 @@ namespace LogDataSystem.Utiles
 {
     public class EditLogData
     {
-        public string Path { get; set; } = "D:\\LOG\\";
 
-        public void AddLogFile_Csv(int ch, bool result, int RunTime, int tempSet, int tempRange, int TimeSet, int ErrorCode, DateTime startTime, DateTime endTime)
+        public void AddLogFile_Csv(int ch, bool result, int RunTime, int tempSet, int tempRange, int TimeSet, int ErrorCode, DateTime startTime, DateTime endTime, string Path)
         {
             
             try
