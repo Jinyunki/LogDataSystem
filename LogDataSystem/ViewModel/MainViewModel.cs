@@ -1,34 +1,75 @@
 using GalaSoft.MvvmLight;
+using System.Diagnostics;
+using System.Reflection;
+using System.Windows;
+using System;
 
 namespace LogDataSystem.ViewModel
 {
-    /// <summary>
-    /// This class contains properties that the main View can data bind to.
-    /// <para>
-    /// Use the <strong>mvvminpc</strong> snippet to add bindable properties to this ViewModel.
-    /// </para>
-    /// <para>
-    /// You can also use Blend to data bind with the tool's support.
-    /// </para>
-    /// <para>
-    /// See http://www.galasoft.ch/mvvm
-    /// </para>
-    /// </summary>
     public class MainViewModel : ViewModelBase
     {
-        /// <summary>
-        /// Initializes a new instance of the MainViewModel class.
-        /// </summary>
         public MainViewModel()
         {
-            ////if (IsInDesignMode)
-            ////{
-            ////    // Code runs in Blend --> create design time data.
-            ////}
-            ////else
-            ////{
-            ////    // Code runs "for real"
-            ////}
+
+        }
+
+        private WindowState _windowState;
+        public WindowState WindowState
+        {
+            get { return _windowState; }
+            set
+            {
+                if (_windowState != value)
+                {
+                    _windowState = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        // Window Minimize
+        private void WinMinmize()
+        {
+            Trace.WriteLine("==========   Start   ==========\nMethodName : " + MethodBase.GetCurrentMethod().Name + "\n");
+            try
+            {
+                WindowState = WindowState.Minimized;
+            } catch (Exception ex)
+            {
+                Trace.WriteLine("========== Exception ==========\nMethodName : " + MethodBase.GetCurrentMethod().Name + "\nException : " + ex);
+                throw;
+            }
+        }
+
+        // Window Size
+        private void WinMaxSize()
+        {
+
+            Trace.WriteLine("==========   Start   ==========\nMethodName : " + MethodBase.GetCurrentMethod().Name + "\n");
+            try
+            {
+                WindowState = (WindowState == WindowState.Normal) ? WindowState.Maximized : WindowState.Normal;
+            } catch (Exception ex)
+            {
+                Trace.WriteLine("========== Exception ==========\nMethodName : " + MethodBase.GetCurrentMethod().Name + "\nException : " + ex);
+                throw;
+            }
+
+        }
+        private void WindowClose()
+        {
+
+            Trace.WriteLine("==========   Start   ==========\nMethodName : " + MethodBase.GetCurrentMethod().Name + "\n");
+            try
+            {
+                Application.Current.Shutdown();
+
+            } catch (Exception ex)
+            {
+                Trace.WriteLine("========== Exception ==========\nMethodName : " + MethodBase.GetCurrentMethod().Name + "\nException : " + ex);
+                throw;
+            }
+
         }
     }
 }

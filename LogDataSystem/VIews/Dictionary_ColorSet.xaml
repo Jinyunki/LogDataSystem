@@ -1,0 +1,9 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <SolidColorBrush x:Key="ButtonSelectBrush" Color="DarkOrange" />
+    <SolidColorBrush x:Key="DarkBrush" Color="DarkSlateBlue" />
+    <SolidColorBrush x:Key="DeepNaby" Color="#FF010A1F" />
+    <SolidColorBrush x:Key="DarkNavyGray" Color="#1A202C" />
+    <SolidColorBrush x:Key="FontColor" Color="#9BA9BB" />
+</ResourceDictionary>

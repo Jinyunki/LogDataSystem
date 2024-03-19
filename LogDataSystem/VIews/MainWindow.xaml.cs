@@ -24,5 +24,14 @@ namespace LogDataSystem
         {
             InitializeComponent();
         }
+        private void Grid_MouseEnter(object sender, MouseEventArgs e)
+        {
+            WinBtn.Visibility = Visibility.Visible;
+        }
+
+        private void Grid_MouseLeave(object sender, MouseEventArgs e)
+        {
+            WinBtn.Visibility = Visibility.Hidden;
+        }
     }
 }

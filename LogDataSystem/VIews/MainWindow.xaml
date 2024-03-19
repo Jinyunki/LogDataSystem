@@ -1,0 +1,91 @@
+﻿<Window
+    x:Class="LogDataSystem.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:LogDataSystem"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="MainWindow"
+    Width="1800"
+    Height="900"
+    AllowsTransparency="True"
+    Background="Transparent"
+    DataContext="{Binding Main, Source={StaticResource Locator}}"
+    WindowState="{Binding WindowState}"
+    mc:Ignorable="d">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Dictionary_ButtonStyle.xaml" />
+                <ResourceDictionary Source="Dictionary_ColorSet.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+
+        <Grid
+            Grid.Row="0"
+            Panel.ZIndex="3"
+            MouseEnter="Grid_MouseEnter"
+            MouseLeave="Grid_MouseLeave">
+            <!--  Header - Top WindowBtn  -->
+            <Border
+                Grid.Row="0"
+                Background="{DynamicResource DarkNavyGray}"
+                CornerRadius="5">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200" />
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="90" />
+                        <ColumnDefinition Width="30" />
+                    </Grid.ColumnDefinitions>
+
+
+                    <Grid x:Name="WinBtn" Grid.Column="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30" />
+                            <ColumnDefinition Width="30" />
+                            <ColumnDefinition Width="30" />
+                        </Grid.ColumnDefinitions>
+                        <Button
+                            Grid.Column="0"
+                            Width="25"
+                            Height="25"
+                            Background="#FF074807"
+                            Command="{Binding BtnMinmize}"
+                            Content="ㅡ"
+                            FontSize="12"
+                            Style="{StaticResource RoundedButtonStyle}" />
+
+                        <Button
+                            Grid.Column="1"
+                            Width="25"
+                            Height="25"
+                            Background="#FF8C8C13"
+                            Command="{Binding BtnMaxsize}"
+                            Content="O"
+                            FontSize="12"
+                            Style="{StaticResource RoundedButtonStyle}" />
+
+                        <Button
+                            Grid.Column="2"
+                            Width="25"
+                            Height="25"
+                            Background="#FF791919"
+                            Command="{Binding BtnClose}"
+                            Content="X"
+                            FontSize="12"
+                            Style="{StaticResource RoundedButtonStyle}" />
+                    </Grid>
+
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>
