@@ -3,29 +3,28 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Windows;
 using System;
+using GalaSoft.MvvmLight.Command;
+using System.Windows.Input;
+using LogDataSystem.DataModels;
+using LogDataSystem.Utiles;
 
 namespace LogDataSystem.ViewModel
 {
-    public class MainViewModel : ViewModelBase
+    public class MainViewModel : MainModel
     {
+        EditLogData editLogData = new EditLogData();
+        public ICommand TESTLOGBTN { get; set; }
         public MainViewModel()
         {
+            BtnMinmize = new RelayCommand(WinMinmize);
+            BtnMaxsize = new RelayCommand(WinMaxSize);
+            BtnClose = new RelayCommand(WindowClose);
+
+            TESTLOGBTN = new RelayCommand(() => { editLogData.AddLogFile_Csv(0, true, 1, 2, 3, 4, 5, DateTime.Now, DateTime.Now); });
+
 
         }
-
-        private WindowState _windowState;
-        public WindowState WindowState
-        {
-            get { return _windowState; }
-            set
-            {
-                if (_windowState != value)
-                {
-                    _windowState = value;
-                    RaisePropertyChanged();
-                }
-            }
-        }
+        
 
         // Window Minimize
         private void WinMinmize()

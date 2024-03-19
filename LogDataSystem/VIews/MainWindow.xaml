@@ -12,6 +12,7 @@
     Background="Transparent"
     DataContext="{Binding Main, Source={StaticResource Locator}}"
     WindowState="{Binding WindowState}"
+    WindowStyle="None"
     mc:Ignorable="d">
     <Window.Resources>
         <ResourceDictionary>
@@ -87,5 +88,10 @@
                 </Grid>
             </Border>
         </Grid>
+        <Button
+            Grid.Row="1"
+            FontSize="55"
+            Command="{Binding TESTLOGBTN}"
+            Content="Test" />
     </Grid>
 </Window>
