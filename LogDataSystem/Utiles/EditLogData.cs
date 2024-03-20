@@ -10,12 +10,30 @@ using System.Windows.Interop;
 
 namespace LogDataSystem.Utiles
 {
+    /// <summary>
+    /// 로그 데이터를 편집하고 관리하는 클래스입니다.
+    /// </summary>
     public class EditLogData : ILogDataEditor
     {
         // 이벤트가 발생할때마다 추가적으로들어가는 DATA 파일위치 경로
         public string receiveDataPath = "D:\\RECEIVE\\";
         // 메인 데이터가 저장될 경로 (년도/날짜/내부 CSV존재 안에서 지속 갱신)
         public string logPath = "D:\\LOG\\";
+
+        /// <summary>
+        /// CSV 파일에 로그 데이터를 추가합니다.
+        /// </summary>
+        /// <param name="ch">채널 번호</param>
+        /// <param name="result">결과</param>
+        /// <param name="RunTime">실행 시간</param>
+        /// <param name="tempSet">설정된 온도</param>
+        /// <param name="tempRange">온도 범위</param>
+        /// <param name="TimeSet">설정 시간</param>
+        /// <param name="ErrorCode">에러 코드</param>
+        /// <param name="startTime">시작 시간</param>
+        /// <param name="endTime">종료 시간</param>
+        /// <param name="logPath">로그 파일 경로</param>
+        /// <returns>성공 여부</returns>
         public bool AddLogFile_Csv(int ch, bool result, int RunTime, int tempSet, int tempRange, int TimeSet, int ErrorCode, DateTime startTime, DateTime endTime, string logPath)
         {
             try
@@ -35,7 +53,7 @@ namespace LogDataSystem.Utiles
                 StringBuilder builder = new StringBuilder();
                 //생성된 시간
                 builder.Append(tm.ToString("yyyy-MM-dd HH:mm:ss")).Append(",");
-                
+
                 builder.Append(chNo).Append(",");
                 builder.Append(strResult).Append(",");
                 builder.Append(RunTime).Append(",");
@@ -46,15 +64,15 @@ namespace LogDataSystem.Utiles
                 builder.Append(startTime.ToString("yyyy-MM-dd HH:mm:ss")).Append(",");
                 builder.Append(endTime.ToString("yyyy-MM-dd HH:mm:ss")).Append(",");
                 builder.Append((endTime - startTime).TotalSeconds);
-
                 string msg = builder.ToString();
 
-
+                // 수신된 데이터를 CSV 파일에 씁니다.
                 StreamWriter file;
                 file = new StreamWriter(String.Format("{0}{1}.csv", receiveDataPath, receiveFile), false);
                 file.WriteLine(msg);
                 file.Close();
 
+                // 로그 경로 설정
                 var tmLog = DateTime.Now;
                 di = new DirectoryInfo(logPath);
                 if (!di.Exists)
@@ -72,6 +90,7 @@ namespace LogDataSystem.Utiles
 
                 string title = "DateTime,CH,Result,Run Time,Set Temp,Temp Range,Set Time,Error Code,Start Time,End Time,Run Seconds";
 
+                // CSV 파일이 존재하지 않으면 헤더와 데이터를 씁니다.
                 if (!File.Exists(string.Format("{0}{1}.csv", dch.FullName + "\\", logFile)))
                 {
                     file = new StreamWriter(string.Format("{0}{1}.csv", dch.FullName + "\\", logFile), true);

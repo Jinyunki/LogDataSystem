@@ -13,16 +13,17 @@ namespace LogDataSystem.ViewModel
 {
     public class MainViewModel : MainModel
     {
-        private ILogDataEditor LogDataEditor { get; set; }
-        public ICommand LogUploadBtn { get; set; }
-        private BackgroundWorker LogUpdateWorker = new BackgroundWorker();
-        public MainViewModel() {
-            WorkerAdd();
-            WindowsButtonEvent();
 
+        private BackgroundWorker LogUpdateWorker = new BackgroundWorker(); // 백그라운드 작업자 객체
+        public MainViewModel() {
+            WorkerAdd(); // 백그라운드 작업 구독 추가
+            WindowsButtonEvent(); // 윈도우 버튼 이벤트 구독
+
+            // 로그 업로드 버튼 명령 설정
             LogUploadBtn = new RelayCommand(() => { LogUpdateWorker.RunWorkerAsync(); });
         }
 
+        // Instance 소멸 시 작동
         ~MainViewModel() {
             LogUpdateWorker.CancelAsync();
             LogUpdateWorker.Dispose();
@@ -37,6 +38,7 @@ namespace LogDataSystem.ViewModel
             LogUpdateWorker.RunWorkerCompleted += LogUpdateWorker_RunWorkerCompleted;
             LogUpdateWorker.WorkerSupportsCancellation = true;
         }
+
         /// <summary>
         /// 어플리케이션윈도우의 축소,사이즈조절,닫기 기본 버튼
         /// </summary>
@@ -47,24 +49,41 @@ namespace LogDataSystem.ViewModel
         }
 
         private void LogUpdateWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e) {
-            Console.WriteLine("finish");
-            LogUpdateWorker.CancelAsync();
-        }
 
+            Trace.WriteLine("==========   Start   ==========\nMethodName : " + (MethodBase.GetCurrentMethod().Name) + "\n");
+            try {
+                LogUpdateWorker.CancelAsync();
+            } catch (Exception ex) {
+                Trace.WriteLine("========== Exception ==========\nMethodName : " + (MethodBase.GetCurrentMethod().Name) + "\nException : " + ex);
+                throw;
+            }
+
+        }
+        /// <summary>
+        /// 백그라운드 작업 실행 이벤트 핸들러
+        /// </summary>
         private void LogUpdateWorker_DoWork(object sender, DoWorkEventArgs e) {
-            LogDataEditor = new EditLogData();
-            int ch = 1;
-            bool result = true;
-            int RunTime = 100;
-            int tempSet = 30;
-            int tempRange = 5;
-            int TimeSet = 60;
-            int ErrorCode = 0;
-            DateTime startTime = DateTime.Now;
-            DateTime endTime = DateTime.Now;
-            string logPath = "D:\\LOG\\";
-            // EditLogData 클래스의 AddLogFile_Csv 메서드를 호출
-            LogDataEditor.AddLogFile_Csv(ch, result, RunTime, tempSet, tempRange, TimeSet, ErrorCode, startTime, endTime, logPath);
+
+            Trace.WriteLine("==========   Start   ==========\nMethodName : " + (MethodBase.GetCurrentMethod().Name) + "\n");
+            try {
+                LogDataEditor = new EditLogData();
+                int ch = 1;
+                bool result = true;
+                int RunTime = 100;
+                int tempSet = 30;
+                int tempRange = 5;
+                int TimeSet = 60;
+                int ErrorCode = 0;
+                DateTime startTime = DateTime.Now;
+                DateTime endTime = DateTime.Now;
+                string logPath = "D:\\LOG\\";
+                // EditLogData 클래스의 AddLogFile_Csv 메서드를 호출
+                LogDataEditor.AddLogFile_Csv(ch, result, RunTime, tempSet, tempRange, TimeSet, ErrorCode, startTime, endTime, logPath);
+            } catch (Exception ex) {
+                Trace.WriteLine("========== Exception ==========\nMethodName : " + (MethodBase.GetCurrentMethod().Name) + "\nException : " + ex);
+                throw;
+            }
+
         }
     }
 }

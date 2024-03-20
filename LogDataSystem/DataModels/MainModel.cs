@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows;
 using GalaSoft.MvvmLight;
+using LogDataSystem.Utiles;
 
 namespace LogDataSystem.DataModels
 {
@@ -41,6 +42,11 @@ namespace LogDataSystem.DataModels
                 }
             }
         }
+        #endregion
+
+        #region 로그 기능
+        public ILogDataEditor LogDataEditor { get; set; } // 로그 데이터 편집기 인터페이스
+        public ICommand LogUploadBtn { get; set; } // 로그 업로드 버튼 명령
         #endregion
     }
 }
