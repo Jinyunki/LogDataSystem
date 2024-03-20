@@ -5,6 +5,7 @@ LogDataSystem
 ## 사용 기술셋
   * C#
   * WPF
+  * MvvmLight
   * BackgroundWorker
   * Diagnostics
 
