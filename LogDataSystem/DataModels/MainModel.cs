@@ -11,6 +11,7 @@ namespace LogDataSystem.DataModels
 {
     public class MainModel : ViewModelBase
     {
+        #region 윈도우 이벤트/버튼 
         public ICommand BtnMinmize { get; set; }
         public ICommand BtnMaxsize { get; set; }
         public ICommand BtnClose { get; set; }
@@ -27,5 +28,19 @@ namespace LogDataSystem.DataModels
                 }
             }
         }
+        #endregion
+
+        #region 경로
+        private string logPath = "D:\\LOG\\";
+        public string LogPath {
+            get { return logPath; }
+            set {
+                if (logPath != value) {
+                    logPath = value;
+                    RaisePropertyChanged(nameof(LogPath));
+                }
+            }
+        }
+        #endregion
     }
 }

@@ -91,7 +91,7 @@
         <Button
             Grid.Row="1"
             FontSize="55"
-            Command="{Binding TESTLOGBTN}"
+            Command="{Binding LogUploadBtn}"
             Content="Test" />
     </Grid>
 </Window>
