@@ -5,9 +5,11 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:LogDataSystem"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodel="clr-namespace:LogDataSystem.ViewModel"
     Title="MainWindow"
-    Width="1800"
-    Height="900"
+    Width="900"
+    Height="400"
+    d:DataContext="{d:DesignInstance Type=viewmodel:MainViewModel}"
     AllowsTransparency="True"
     Background="Transparent"
     DataContext="{Binding Main, Source={StaticResource Locator}}"
@@ -121,6 +123,8 @@
                             Grid.Column="2"
                             Width="25"
                             Height="25"
+                            Margin="0,8,2,8"
+                            HorizontalAlignment="Right"
                             Background="#FF791919"
                             Command="{Binding BtnClose}"
                             Content="X"
@@ -131,21 +135,39 @@
                 </Grid>
             </Border>
         </Grid>
-        <Grid Grid.Row="1" Background="White" />
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Button
+                Grid.Column="0"
+                Background="DarkRed"
+                Command="{Binding LogUploadBtn}"
+                Content="RUN"
+                FontSize="35"
+                Foreground="White" />
+            <Button
+                Grid.Column="1"
+                Background="Blue"
+                Command="{Binding StopUploadBtn}"
+                Content="END"
+                FontSize="35"
+                Foreground="White" />
+        </Grid>
         <Grid
             x:Name="sideTabs"
             Grid.Row="1"
             Width="20"
             HorizontalAlignment="Left"
-            Background="{StaticResource DarkNavyGray}">
-        </Grid>
+            Background="{StaticResource DarkNavyGray}" />
 
         <Border
             Grid.Row="1"
             Width="15"
             Height="15"
-            Background="Silver"
             HorizontalAlignment="Left"
+            Background="Silver"
             CornerRadius="15">
             <Border.Triggers>
                 <EventTrigger RoutedEvent="UIElement.MouseLeftButtonDown">

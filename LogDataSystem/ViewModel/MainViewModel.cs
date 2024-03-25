@@ -1,43 +1,29 @@
-using GalaSoft.MvvmLight;
-using System.Diagnostics;
-using System.Reflection;
 using System.Windows;
 using System;
 using GalaSoft.MvvmLight.Command;
-using System.Windows.Input;
 using LogDataSystem.DataModels;
 using LogDataSystem.Utiles;
-using System.ComponentModel;
+using System.Threading.Tasks;
+using System.Threading;
 
-namespace LogDataSystem.ViewModel
-{
+namespace LogDataSystem.ViewModel {
     public class MainViewModel : MainModel
     {
-
-        private BackgroundWorker LogUpdateWorker = new BackgroundWorker(); // 백그라운드 작업자 객체
         public MainViewModel() {
-            WorkerAdd(); // 백그라운드 작업 구독 추가
+            //WorkerAdd(); // 백그라운드 작업 구독 추가
             WindowsButtonEvent(); // 윈도우 버튼 이벤트 구독
 
+            LogDataEditor = new EditLogData();
             // 로그 업로드 버튼 명령 설정
-            LogUploadBtn = new RelayCommand(() => { LogUpdateWorker.RunWorkerAsync(); });
+            LogUploadBtn = new RelayCommand(StartEventHandling);
+            StopUploadBtn = new RelayCommand(StopEventHandling);
         }
 
         // Instance 소멸 시 작동
         ~MainViewModel() {
-            LogUpdateWorker.CancelAsync();
-            LogUpdateWorker.Dispose();
+            StopEventHandling();
         }
 
-        /// <summary>
-        /// Background 작업 구독 관리
-        /// </summary>
-        private void WorkerAdd() {
-            //LOG DATA UPLOAD 구독
-            LogUpdateWorker.DoWork += LogUpdateWorker_DoWork;
-            LogUpdateWorker.RunWorkerCompleted += LogUpdateWorker_RunWorkerCompleted;
-            LogUpdateWorker.WorkerSupportsCancellation = true;
-        }
 
         /// <summary>
         /// 어플리케이션윈도우의 축소,사이즈조절,닫기 기본 버튼
@@ -48,42 +34,31 @@ namespace LogDataSystem.ViewModel
             BtnClose = new RelayCommand(() => { Application.Current.Shutdown(); });
         }
 
-        private void LogUpdateWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e) {
+        private CancellationTokenSource cancellationTokenSource;
 
-            Trace.WriteLine("==========   Start   ==========\nMethodName : " + (MethodBase.GetCurrentMethod().Name) + "\n");
-            try {
-                LogUpdateWorker.CancelAsync();
-            } catch (Exception ex) {
-                Trace.WriteLine("========== Exception ==========\nMethodName : " + (MethodBase.GetCurrentMethod().Name) + "\nException : " + ex);
-                throw;
-            }
-
+        private async void StartEventHandling() {
+            cancellationTokenSource = new CancellationTokenSource();
+            await StartPeriodicWork(cancellationTokenSource.Token);
         }
-        /// <summary>
-        /// 백그라운드 작업 실행 이벤트 핸들러
-        /// </summary>
-        private void LogUpdateWorker_DoWork(object sender, DoWorkEventArgs e) {
 
-            Trace.WriteLine("==========   Start   ==========\nMethodName : " + (MethodBase.GetCurrentMethod().Name) + "\n");
-            try {
-                LogDataEditor = new EditLogData();
-                int ch = 1;
-                bool result = true;
-                int RunTime = 100;
-                int tempSet = 30;
-                int tempRange = 5;
-                int TimeSet = 60;
-                int ErrorCode = 0;
-                DateTime startTime = DateTime.Now;
-                DateTime endTime = DateTime.Now;
-                string logPath = "D:\\LOG\\";
-                // EditLogData 클래스의 AddLogFile_Csv 메서드를 호출
-                LogDataEditor.AddLogFile_Csv(ch, result, RunTime, tempSet, tempRange, TimeSet, ErrorCode, startTime, endTime, logPath);
-            } catch (Exception ex) {
-                Trace.WriteLine("========== Exception ==========\nMethodName : " + (MethodBase.GetCurrentMethod().Name) + "\nException : " + ex);
-                throw;
+
+        private void StopEventHandling() {
+            cancellationTokenSource?.Cancel();
+        }
+
+        private async Task StartPeriodicWork(CancellationToken cancellationToken) {
+            while (!cancellationToken.IsCancellationRequested) {
+                try {
+                    // 주기적으로 작업 수행
+                    await Task.Delay(5000, cancellationToken);
+                    Console.WriteLine("TEST RUN " + DateTime.Now);
+                } catch (TaskCanceledException) {
+                    // 취소 요청이 발생하면 예외가 발생하므로, 여기서 작업 중단 처리를 수행할 수 있습니다.
+                    // 필요한 경우 추가적인 작업을 수행할 수 있습니다.
+                    Console.WriteLine("TEST END " + DateTime.Now);
+                    break; // 작업 중단
+                }
             }
-
         }
     }
 }
