@@ -73,6 +73,7 @@
     <Compile Include="DataModels\MainModel.cs" />
     <Compile Include="Utiles\EditLogData.cs" />
     <Compile Include="Utiles\ILogDataEditor.cs" />
+    <Compile Include="Utiles\StringExtension.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Page Include="VIews\Dictionary_ButtonStyle.xaml">

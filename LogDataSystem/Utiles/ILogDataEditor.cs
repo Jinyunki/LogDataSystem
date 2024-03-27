@@ -22,6 +22,7 @@ namespace LogDataSystem.Utiles {
         /// <param name="endTime"></param>
         /// <param name="logPath"></param>
         bool AddLogFile_Csv(int ch, bool result, int RunTime, int tempSet, int tempRange, int TimeSet, int ErrorCode, DateTime startTime, DateTime endTime, string logPath);
+        bool AddLogFile_Csv(int ch, string result, int RunTime, int tempSet, int tempRange, int tempValue, int TimeSet, int ErrorCode, DateTime startTime, DateTime endTime, string EqStatus);
         //void AddLogFile_Csv(int ch, bool result, int RunTime, int tempSet, int tempRange, int TimeSet, int ErrorCode, DateTime startTime, DateTime endTime, string logPath);
     }
 }

@@ -24,6 +24,11 @@ namespace LogDataSystem
         {
             InitializeComponent();
         }
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e) {
+            if (e.LeftButton == MouseButtonState.Pressed && Keyboard.IsKeyDown(Key.LeftCtrl)) {
+                DragMove();
+            }
+        }
         private void Grid_MouseEnter(object sender, MouseEventArgs e)
         {
             WinBtn.Visibility = Visibility.Visible;
@@ -33,5 +38,6 @@ namespace LogDataSystem
         {
             WinBtn.Visibility = Visibility.Hidden;
         }
+
     }
 }

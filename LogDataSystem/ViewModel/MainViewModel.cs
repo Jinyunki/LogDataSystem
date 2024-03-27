@@ -5,6 +5,7 @@ using LogDataSystem.DataModels;
 using LogDataSystem.Utiles;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Windows.Controls.Primitives;
 
 namespace LogDataSystem.ViewModel {
     public class MainViewModel : MainModel
@@ -18,12 +19,10 @@ namespace LogDataSystem.ViewModel {
             LogUploadBtn = new RelayCommand(StartEventHandling);
             StopUploadBtn = new RelayCommand(StopEventHandling);
         }
-
         // Instance 소멸 시 작동
         ~MainViewModel() {
             StopEventHandling();
         }
-
 
         /// <summary>
         /// 어플리케이션윈도우의 축소,사이즈조절,닫기 기본 버튼
@@ -34,10 +33,11 @@ namespace LogDataSystem.ViewModel {
             BtnClose = new RelayCommand(() => { Application.Current.Shutdown(); });
         }
 
-        private CancellationTokenSource cancellationTokenSource;
+        private CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
         private async void StartEventHandling() {
-            cancellationTokenSource = new CancellationTokenSource();
+            "START".Debug();
+            LogDataEditor.AddLogFile_Csv(1, "", 5000, 80, 5, 45, 600, 0, DateTime.Now, DateTime.Now, "START");
             await StartPeriodicWork(cancellationTokenSource.Token);
         }
 
@@ -50,12 +50,16 @@ namespace LogDataSystem.ViewModel {
             while (!cancellationToken.IsCancellationRequested) {
                 try {
                     // 주기적으로 작업 수행
-                    await Task.Delay(5000, cancellationToken);
-                    Console.WriteLine("TEST RUN " + DateTime.Now);
-                } catch (TaskCanceledException) {
+                    await Task.Delay(1000, cancellationToken);
+                    "RUN".Debug();
+                    LogDataEditor.AddLogFile_Csv(1, "", 5000, 80, 5, 45, 600, 0, DateTime.Now, DateTime.Now, "RUN");
+
+                } catch (TaskCanceledException e) {
                     // 취소 요청이 발생하면 예외가 발생하므로, 여기서 작업 중단 처리를 수행할 수 있습니다.
                     // 필요한 경우 추가적인 작업을 수행할 수 있습니다.
-                    Console.WriteLine("TEST END " + DateTime.Now);
+                    LogDataEditor.AddLogFile_Csv(1, "", 5000, 80, 5, 45, 600, 0, DateTime.Now, DateTime.Now, "END");
+                    "END".Debug();
+                    e.ToString().Debug();
                     break; // 작업 중단
                 }
             }

@@ -9,6 +9,7 @@
     Title="MainWindow"
     Width="900"
     Height="400"
+    MouseDown="Window_MouseDown"
     d:DataContext="{d:DesignInstance Type=viewmodel:MainViewModel}"
     AllowsTransparency="True"
     Background="Transparent"
